@@ -128,7 +128,7 @@ func BuildImageDir(board, version string) string {
 	return filepath.Join(BuildRoot(), "images", board, dir)
 }
 
-func RepoInit(chroot, url, branch, name string) error {
+func RepoInit(chroot, url, branch, name ,repourl,repobranch string) error {
 	return enterChroot(enter{
 		Chroot: chroot,
 		CmdDir: chrootRepoRoot,
@@ -137,6 +137,8 @@ func RepoInit(chroot, url, branch, name string) error {
 			"--manifest-url", url,
 			"--manifest-branch", branch,
 			"--manifest-name", name,
+                        "--repo-url",repourl,
+                        "--repo-branch",repobranch,
 		}})
 }
 
