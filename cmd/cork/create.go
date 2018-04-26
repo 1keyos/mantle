@@ -28,6 +28,7 @@ import (
 
 const (
 	coreosManifestURL = "https://github.com/coreos/manifest.git"
+        constrepoURL = "https://gerrit-googlesource.proxy.ustclug.org/git-repo"
 )
 
 var (
@@ -41,6 +42,8 @@ var (
 	manifestURL    string
 	manifestName   string
 	manifestBranch string
+        repoURL    string
+        repoBranch string
 	repoVerify     bool
 	sigVerify      bool
 
@@ -107,6 +110,10 @@ func init() {
 		"manifest-url", coreosManifestURL, "Manifest git repo location")
 	creationFlags.StringVar(&manifestBranch,
 		"manifest-branch", "master", "Manifest git repo branch")
+        creationFlags.StringVar(&repoURL,
+                "repo-url", constrepoURL, "   repo repository location")
+        creationFlags.StringVar(&repoBranch,
+                "repo-branch", "master", " repo branch or revision")
 	creationFlags.StringVar(&manifestName,
 		"manifest-name", "default.xml", "Manifest file name")
 	creationFlags.BoolVar(&repoVerify,
@@ -247,7 +254,7 @@ func unpackChroot(replace bool) {
 }
 
 func updateRepo() {
-	if err := sdk.RepoInit(chrootName, manifestURL, manifestBranch, manifestName); err != nil {
+	if err := sdk.RepoInit(chrootName, manifestURL, manifestBranch, manifestName,repoURL,repoBranch); err != nil {
 		plog.Fatalf("repo init failed: %v", err)
 	}
 
